@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Lab5.Models.DataAccess.AcademicRecord>
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th> 
+               @Html.ActionLink("Course", "Index", new { sortOrder = @HttpContextAccessor.HttpContext.Session.GetString("CourseSortParm") })
+                 
+            </th>
+            <th>
+               
+             @Html.ActionLink("Student", "Index", new { sortOrder = @HttpContextAccessor.HttpContext.Session.GetString("StudentSortParm") })
+                
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.Grade)
+            </th>
+            <th>
+                @Html.ActionLink("EditAll", "EditAll", new{ sortOrder = @HttpContextAccessor.HttpContext.Session.GetString("SortOrder")})
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+
+            <td>
+              
+               @Html.DisplayFor(modelItem => item.CourseCodeNavigation.Code) -
+               @Html.DisplayFor(modelItem => item.CourseCodeNavigation.Title)
+            </td>
+
+            <td>
+                 @Html.DisplayFor(modelItem => item.Student.Id) -
+                 @Html.DisplayFor(modelItem => item.Student.Name)
+            </td>
+
+            <td>
+            
+              @Html.DisplayFor(modelItem => item.Grade)
+                
+            </td>
+
+            <td>
+                <a asp-controller="AcademicRecords" asp-action="Edit" asp-route-StudentId="@item.StudentId" asp-route-CourseCode="@item.CourseCode">Edit</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,64 @@
+﻿@model List<Lab5.Models.DataAccess.AcademicRecord>
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Edit All";
+}
+
+<h1>Edit All</h1>
+
+ 
+<form asp-action="EditAll" method="post">
+<table class="table">
+    <thead>
+        <tr>
+            <th> 
+               @Html.ActionLink("Course", "EditAll", new { sortOrder = @HttpContextAccessor.HttpContext.Session.GetString("CourseSortParm") })
+                 
+            </th>
+            <th>
+               
+             @Html.ActionLink("Student", "EditAll", new { sortOrder = @HttpContextAccessor.HttpContext.Session.GetString("StudentSortParm") })
+                
+            </th>
+            <th>
+               Grade
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@for (int i=0; i<Model.Count();i++) {
+        <tr>
+
+            <td>
+              <input type="hidden" asp-for="@Model[i].CourseCode" />
+              <label>@Model[i].CourseCodeNavigation.Code - @Model[i].CourseCodeNavigation.Title</label> 
+            </td>
+
+            <td>
+                 <input type="hidden" asp-for="@Model[i].StudentId" />
+              <label>@Model[i].Student.Id - @Model[i].Student.Name</label> 
+            </td>
+
+            <td>
+                          <input type="number" asp-for="@Model[i].Grade" />
+                          <span class="text-danger" asp-validation-for="@Model[i].Grade"></span>
+                
+            </td>
+             
+        </tr>
+}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>
+                <input type="submit" value="Save" class="btn btn-primary" />
+               <a asp-action="Index" asp-route-sortOrder="@HttpContextAccessor.HttpContext.Session.GetString("SortOrder")" class="btn btn-secondary">Cancel</a>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</form>

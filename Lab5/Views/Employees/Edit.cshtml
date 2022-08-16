@@ -1,0 +1,98 @@
+﻿@model Lab5.Models.DataAccess.Employee
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Edit</h1>
+
+<h4>Employee - @Model.Id</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                                  <input type="hidden" asp-for="Id" />
+                <label class="control-label">Employee Name</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Network ID</label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div> 
+            <div class="form-group">
+                  <label class="control-label">Job Title</label>
+                  <br />
+                
+                 
+                @{
+                    if(Model.Roles != null && Model.Roles.Count > 0)
+                    {
+                        List<int> roles = Model.Roles.Select(x => x.Id).ToList();
+                        if(roles.Contains(1))
+                            {
+                                <input type="checkbox" name="chkRole" value="1" checked> <span>Department Chair</span>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="chkRole" value="1" /> <span>Department Chair</span>
+                            }
+
+                            if(roles.Contains(2))
+                            {
+                        
+                                <input type="checkbox" name="chkRole" value="2" checked /> <span>Coordinator</span>
+                            }
+                            else
+                            {
+                       
+                                <input type="checkbox" name="chkRole" value="2" /> <span>Coordinator</span>
+                            }
+
+                            if(roles.Contains(3))
+                            {
+                                <input type="checkbox" name="chkRole" value="3" checked /> <span>Instructor</span>
+                            }
+                            else
+                            {
+                            <input type="checkbox" name="chkRole" value="3" /> <span>Instructor</span>
+                        }                            
+                    }
+                    else
+                    {
+                          <input type="checkbox" name="chkRole" value="1" /> <span> Department Chair</span>
+                                    <input type="checkbox" name="chkRole" value="2" /> <span>Coordinator</span>
+                                    <input type="checkbox" name="chkRole" value="3" /> <span>Instructor</span>
+                    }
+                    @if(ViewBag.ChkRoleError != null)
+                    {
+                        <span class="text-danger"> @ViewBag.ChkRoleError</span>
+                    }
+                }
+         
+                     
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+            
